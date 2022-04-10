@@ -1,0 +1,30 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.body {
+  min-height: 100vh;
+  padding: 80px 1rem 1rem 1rem;
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+
+  &__listing {
+    flex: 1 auto;
+    border: 1px solid lightgrey;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+
+  &__cart {
+    flex-basis: 300px;
+    border: 1px solid lightgrey;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-left: 1rem;
+  }
+}

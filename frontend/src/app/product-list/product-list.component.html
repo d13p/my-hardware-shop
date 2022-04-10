@@ -1,0 +1,8 @@
+<h3>There is a total of {{ totalProductCount }} product(s) available.</h3>
+<div class="product-list" *ngIf="products.length > 0; else noProductTemplate">
+  <app-product-info *ngFor="let product of products" [product]="product"></app-product-info>
+</div>
+
+<ng-template #noProductTemplate>
+  <p class="placeholder-nodata">Nothing to show :'(</p>
+</ng-template>

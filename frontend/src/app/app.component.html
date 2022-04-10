@@ -1,0 +1,25 @@
+<header class="header">
+  <mat-toolbar color="primary">
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="title">Smart Hardware Shop</span>
+  </mat-toolbar>
+</header>
+
+<main class="body">
+  <section class="body__listing">
+    <h1 class="body__banner">News / Hot Deals</h1>
+    <mat-form-field class="searchbox" appearance="outline" floatLabel="auto">
+      <mat-label>Search for products</mat-label>
+      <span matPrefix>
+        <mat-icon matSuffix>search</mat-icon>
+      </span>
+      <input matInput>
+    </mat-form-field>
+    <app-product-list></app-product-list>
+  </section>
+  <section class="body__cart">
+    <app-cart></app-cart>
+  </section>
+</main>

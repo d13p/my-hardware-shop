@@ -1,0 +1,36 @@
+<h1>Shopping Cart</h1>
+
+<ng-container *ngIf="items?.length; else noDataTemplate">
+  <table class="table">
+    <thead>
+      <th>#</th>
+      <th>Product</th>
+      <th>Price</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items; let index = index">
+        <td>{{ index+1 }}</td>
+        <td>{{ item.name }}</td>
+        <td>${{ item.price }}</td>
+        <td>
+          <button mat-icon-button color="primary" (click)="onRemoveItem(item)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td></td>
+        <td>Total</td>
+        <td>${{ totalAmount }}</td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
+</ng-container>
+
+<ng-template #noDataTemplate>
+  <p>Nothing here. Add something to your cart!</p>
+</ng-template>
