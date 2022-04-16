@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -15,14 +16,15 @@ describe('ProductListComponent', () => {
   beforeEach(async () => {
     const productService = jasmine.createSpyObj('ProductService', ['getProducts']);
     getProductsSpy = productService.getProducts.and.returnValue(of({
-      total: 0,
-      items: []
+      totalElements: 0,
+      content: []
     }));
 
     await TestBed.configureTestingModule({
       declarations: [ProductListComponent, ProductInfoComponent],
       providers: [{ provide: ProductService, useValue: productService }],
       imports: [
+        HttpClientModule,
         MatSnackBarModule,
         MatCardModule,
       ]
@@ -42,11 +44,13 @@ describe('ProductListComponent', () => {
   it('should render the product list', () => {
     component.products = [
       {
+        id: '1',
         name: '1',
         description: '1',
         price: 1
       },
       {
+        id: '2',
         name: '2',
         description: '2',
         price: 2

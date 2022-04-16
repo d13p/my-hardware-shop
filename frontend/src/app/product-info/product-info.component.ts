@@ -20,8 +20,9 @@ export class ProductInfoComponent implements OnInit {
   }
 
   onAddToCart(): void {
-    this.cart.add(this.product);
-    this.snackbar.open('Product added to cart!');
+    this.cart.add(this.product.id).subscribe(() => {
+      this.snackbar.open('Product added to cart!');
+    });
   }
 
 }

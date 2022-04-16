@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { debounceTime, fromEvent } from 'rxjs';
+import { Component } from '@angular/core';
+import { LoadingService } from './loading.service';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +8,9 @@ import { debounceTime, fromEvent } from 'rxjs';
 })
 export class AppComponent {
   title = 'my-hardware-store';
+
+  constructor(private loadingService: LoadingService) { }
+
+  loading$ = this.loadingService.loading$;
+
 }

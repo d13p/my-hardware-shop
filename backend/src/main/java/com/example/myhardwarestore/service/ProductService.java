@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 
+/**
+ * Implements product-related operations.
+ */
 @Service
 public class ProductService {
 
@@ -32,8 +35,9 @@ public class ProductService {
         ));
     }
 
-    private static Product createProduct(String name, String description, Double price) {
+    private Product createProduct(String name, String description, Double price) {
         Product product = new Product();
+        product.setId(name.replaceAll(" ", "_"));
         product.setName(name);
         product.setDescription(description);
         product.setPrice(price);

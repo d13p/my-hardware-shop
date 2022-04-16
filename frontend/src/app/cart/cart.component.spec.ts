@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -15,6 +16,7 @@ describe('CartComponent', () => {
       declarations: [CartComponent],
       imports: [
         NoopAnimationsModule,
+        HttpClientModule,
         MatIconModule,
         MatSnackBarModule,
       ]
@@ -33,9 +35,14 @@ describe('CartComponent', () => {
 
   it('should render cart items', () => {
     component.items = [{
-      name: 'test product',
-      description: 'test description',
-      price: 1,
+      id: '1',
+      product: {
+        id: '1',
+        name: 'test product',
+        description: 'test description',
+        price: 1,
+      },
+      quantity: 1,
     }];
     fixture.detectChanges();
     expect((fixture.nativeElement as HTMLElement).querySelectorAll('table tbody tr').length).toBe(1);
@@ -45,18 +52,19 @@ describe('CartComponent', () => {
     const cartServiceSpy = fixture.debugElement.injector.get(CartService);
     spyOn(cartServiceSpy, 'remove').and.callThrough();
     component.items = [{
-      name: 'test product',
-      description: 'test description',
-      price: 1,
+      id: '1',
+      product: {
+        id: '1',
+        name: 'test product',
+        description: 'test description',
+        price: 1,
+      },
+      quantity: 1,
     }];
     fixture.detectChanges();
     ((fixture.nativeElement as HTMLElement).querySelector('table tbody tr button') as HTMLButtonElement).click();
 
-    expect(cartServiceSpy.remove).toHaveBeenCalledOnceWith({
-      name: 'test product',
-      description: 'test description',
-      price: 1,
-    });
+    expect(cartServiceSpy.remove).toHaveBeenCalledOnceWith('1');
   });
 
 });

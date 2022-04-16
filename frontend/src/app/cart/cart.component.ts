@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
+import { CartItem } from '../cart';
 import { CartService } from '../cart.service';
-import { Product } from '../product';
 
 @Component({
   selector: 'app-cart',
@@ -16,19 +16,17 @@ export class CartComponent implements OnInit, OnDestroy {
     private cart: CartService,
   ) { }
 
-  items: Product[] = [];
+  items: CartItem[] = [];
   totalAmount: number = 0;
 
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.cart.items$.pipe(
+    this.cart.cart$.pipe(
       takeUntil(this.destroy$)
-    ).subscribe(data => {
-      this.items = data;
-      this.totalAmount = data.reduce((total, e) => {
-        return total += e.price;
-      }, 0);
+    ).subscribe(({ items, totalAmount }) => {
+      this.items = items;
+      this.totalAmount = totalAmount;
     });
   }
 
@@ -37,9 +35,10 @@ export class CartComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onRemoveItem(item: Product): void {
-    this.cart.remove(item);
-    this.snackbar.open('Product removed from your cart!');
+  onRemoveItem(item: CartItem): void {
+    this.cart.remove(item.id).subscribe(() => {
+      this.snackbar.open('Product removed from your cart!');
+    });
   }
 
 }

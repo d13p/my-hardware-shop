@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -12,6 +13,7 @@ describe('ProductInfoComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ProductInfoComponent],
       imports: [
+        HttpClientModule,
         MatCardModule,
         MatSnackBarModule
       ]
@@ -22,6 +24,7 @@ describe('ProductInfoComponent', () => {
     fixture = TestBed.createComponent(ProductInfoComponent);
     component = fixture.componentInstance;
     component.product = {
+      id: '1',
       name: 'Test Product',
       description: 'Test Description',
       price: 10,

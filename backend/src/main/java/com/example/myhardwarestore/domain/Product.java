@@ -1,27 +1,28 @@
 package com.example.myhardwarestore.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "products")
 public class Product {
 
-    @PrePersist
-    public void prePersist() {
-        setUpdatedTime(new Date());
-        setUpdatedBy("System");
-    }
-
     @Id
+    private String id;
+
     private String name;
     private String description;
     private Double price;
     private Date updatedTime;
     private String updatedBy;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

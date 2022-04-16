@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,6 +22,7 @@ describe('AppComponent', () => {
       imports: [
         NoopAnimationsModule,
         RouterTestingModule,
+        HttpClientModule,
         MatToolbarModule,
         MatIconModule,
         MatInputModule,
