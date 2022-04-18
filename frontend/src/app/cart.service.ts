@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, shareReplay, startWith, Subject, switchMap, tap } from 'rxjs';
-import { CartItem } from './cart';
+import { map, Observable, shareReplay, startWith, Subject, switchMap, tap } from 'rxjs';
+import { Cart, CartItem } from './cart';
 
 @Injectable({
   providedIn: 'root'
@@ -13,17 +13,23 @@ export class CartService {
   ) { }
 
   private refreshCart$ = new Subject<void>();
+
+  /**
+   * Cache of the cart items, refreshed whenever `refreshCart$` emits.
+   */
   cart$ = this.refreshCart$.pipe(
     startWith({}),
     switchMap(() => this.getCart()),
     shareReplay(1)
   );
 
-  getCart() {
+  getCart(): Observable<Cart> {
     return this.http.get<{ items: CartItem[] }>('cart').pipe(
       map(({ items }) => {
         return {
           items,
+
+          // Calculate the total amount of all items. This could have been done by backend
           totalAmount: items.reduce((total, e) => {
             return total += e.product.price;
           }, 0)
@@ -32,7 +38,14 @@ export class CartService {
     )
   }
 
-  add(productId: string, quantity = 1) {
+  /**
+   * Adds a new cart item, then refreshes the cart.
+   * 
+   * @param productId 
+   * @param quantity 
+   * @returns id of the new cart item
+   */
+  add(productId: string, quantity = 1): Observable<{ id: string }> {
     return this.http.post<{ id: string }>('cart/items', {
       productId,
       quantity
@@ -41,8 +54,13 @@ export class CartService {
     );
   }
 
-  remove(id: string) {
-    return this.http.delete(`cart/items/${id}`).pipe(
+  /**
+   * Removes a cart item, then refreshes the cart.
+   * @param id 
+   * @returns void
+   */
+  remove(id: string): Observable<void> {
+    return this.http.delete<void>(`cart/items/${id}`).pipe(
       tap(() => this.refreshCart())
     );
   }
