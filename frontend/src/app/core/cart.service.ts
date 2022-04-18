@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, shareReplay, startWith, Subject, switchMap, tap } from 'rxjs';
+import { concatMap, map, Observable, shareReplay, skip, startWith, Subject, switchMap, take } from 'rxjs';
 import { Cart, CartItem } from './cart';
 
 @Injectable({
@@ -23,6 +23,11 @@ export class CartService {
     shareReplay(1)
   );
 
+  /**
+   * Fetches the cart details.
+   * 
+   * @returns the cart details
+   */
   getCart(): Observable<Cart> {
     return this.http.get<{ items: CartItem[] }>('cart').pipe(
       map(({ items }) => {
@@ -50,7 +55,7 @@ export class CartService {
       productId,
       quantity
     }).pipe(
-      tap(() => this.refreshCart())
+      concatMap((resp) => this.refreshCart(resp))
     );
   }
 
@@ -61,12 +66,19 @@ export class CartService {
    */
   remove(id: string): Observable<void> {
     return this.http.delete<void>(`cart/items/${id}`).pipe(
-      tap(() => this.refreshCart())
+      concatMap((resp) => this.refreshCart(resp))
     );
   }
 
-  private refreshCart() {
+  private refreshCart<T>(val: T): Observable<T> {
     this.refreshCart$.next();
+    return this.cart$.pipe(
+      // skip the first event because it is going to be the old cached value
+      skip(1),
+      map(() => val),
+      // complete this stream after 1 event
+      take(1)
+    )
   }
 
 }

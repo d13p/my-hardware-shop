@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
-import { CartItem } from '../cart';
-import { CartService } from '../cart.service';
+import { CartItem, CartService } from '../core';
 
 @Component({
   selector: 'app-cart',

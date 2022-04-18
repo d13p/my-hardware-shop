@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 import { ProductInfoComponent } from '../product-info/product-info.component';
-import { ProductService } from '../product.service';
+import { ProductService } from '../core';
 
 import { ProductListComponent } from './product-list.component';
 
